@@ -45,9 +45,26 @@ export const signUp = async (req, res, next) => {
   }
 };
 
-export const signIn = (req, res, next) => {
+export const signIn = async (req, res, next) => {
   try {
-    sendResponse(res, 200, "signed in");
+    const { email, password } = req.body;
+
+    const foundUser = await User.findOne({ email });
+
+    if (!foundUser) throw new Error("User not found!");
+
+    const isValidPassword = await bcrypt.compare(password, foundUser.password);
+
+    if (!isValidPassword) throw new Error("Invalid password");
+
+    const token = jwt.sign({ userId: foundUser._id }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRATION,
+    });
+
+    sendResponse(res, 200, "User signed in successfully!", {
+      user: foundUser,
+      token,
+    });
   } catch (error) {
     next(error);
   }
