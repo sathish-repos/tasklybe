@@ -1,0 +1,19 @@
+{
+  "name": "tasklybe",
+  "version": "1.0.0",
+  "description": "Backend application created with nodejs, expressjs, mongodb for task tracking APIs.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node api/index",
+    "dev": "node --watch api/index"
+  },
+  "keywords": [
+    "expressjs",
+    "nodejs",
+    "mongodb",
+    "tasks"
+  ],
+  "author": "sathishkumar",
+  "license": "ISC"
+}
