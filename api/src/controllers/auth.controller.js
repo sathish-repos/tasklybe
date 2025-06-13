@@ -38,12 +38,12 @@ export const signUp = async (req, res, next) => {
     if (!newUser[0]) throw new Error("User creation failed!");
 
     await session.commitTransaction();
-    session.endSession();
+    await session.endSession();
 
     sendResponse(res, 201, "User creation successful!", { user: newUser[0] });
   } catch (error) {
     await session.abortTransaction();
-    session.endSession();
+    await session.endSession();
     next(error);
   }
 };
