@@ -4,6 +4,7 @@ import { PORT } from "./src/config/environment.js";
 import connectToMongoDB from "./src/database/mongoose.js";
 import cookieParser from "cookie-parser";
 import authRouter from "./src/routes/auth.routes.js";
+import errorMiddleware from "./src/middlewares/error.middleware.js";
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.use("/api/v1/auth", authRouter);
 app.get("/", (req, res) => {
   res.send(`<h1> Welcome to Tasklybe Backend ;)`);
 });
+
+app.use(errorMiddleware);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
