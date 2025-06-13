@@ -12,6 +12,9 @@ export const signUp = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
+    if (password && password.length <= 5)
+      throw new Error("Password must be more then 5 characters");
+
     const existingUser = await User.findOne({ email });
 
     if (existingUser) throw new Error("User already exist!");
