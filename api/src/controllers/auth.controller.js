@@ -1,6 +1,8 @@
+import sendResponse from "../middlewares/response.middleware.js";
+
 export const signUp = (req, res, next) => {
   try {
-    res.send({ message: "signed up successfully" });
+    sendResponse(res, 200, "signed up");
   } catch (error) {
     next(error);
   }
@@ -8,7 +10,7 @@ export const signUp = (req, res, next) => {
 
 export const signIn = (req, res, next) => {
   try {
-    res.send({ message: "signed in successfully" });
+    sendResponse(res, 200, "signed in");
   } catch (error) {
     next(error);
   }

@@ -4,7 +4,7 @@ const errorMiddleware = (err, req, res, next) => {
     error.statusCode = err.statusCode || 500;
     error.message = err.message || "internal server error";
     error.success = false;
-    error.data = req.data || null;
+    error.errors = err.errors || null;
 
     console.log("error middleware: ", error);
 
