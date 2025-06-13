@@ -26,9 +26,9 @@ app.get("/", (req, res) => {
 
 app.use(errorMiddleware);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);
-  connectToMongoDB();
+  await connectToMongoDB();
 });
 
 export default app;
