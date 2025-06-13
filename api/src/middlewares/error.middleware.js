@@ -6,7 +6,7 @@ const errorMiddleware = (err, req, res, next) => {
     error.success = false;
     error.errors = err.errors || null;
 
-    console.log("error middleware: ", error);
+    console.log("error middleware: ", err);
 
     if (err.name === "ValidationError") {
       const messages = Object.values(err.errors).map((val) => val.message);
