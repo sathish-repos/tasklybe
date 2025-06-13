@@ -1,7 +1,7 @@
 import express from "express";
+import { PORT } from "./src/config/environment.js";
 
 const app = express();
-const PORT = 3000;
 
 app.get("/", (req, res) => {
   res.send(`<h1> Welcome to Tasklybe Backend ;)`);
