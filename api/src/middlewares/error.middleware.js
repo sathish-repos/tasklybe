@@ -1,21 +1,38 @@
 const errorMiddleware = (err, req, res, next) => {
   try {
-    let error = {};
-    error.statusCode = err.status || err.statusCode || 500;
-    error.message = err.message || "internal server error";
-    error.success = false;
-    error.errors = err.errors || null;
+    let statusCode = err.statusCode || err.status || 500;
+    let message = err.message || "Internal server error";
+    let errors = err.errors || null;
 
-    console.log("error middleware: ", err);
-
+    // Handle Mongoose validation errors
     if (err.name === "ValidationError") {
       const messages = Object.values(err.errors).map((val) => val.message);
-      error.message = messages.join(", ");
+      message = messages.join(", ");
+      statusCode = 400;
     }
 
-    res.status(error.statusCode).json(error);
+    // Handle duplicate key error (e.g., unique email)
+    if (err.code && err.code === 11000) {
+      message = `Duplicate value for: ${Object.keys(err.keyValue).join(", ")}`;
+      statusCode = 409;
+    }
+
+    console.error("Error middleware:", err);
+
+    res.status(statusCode).json({
+      statusCode,
+      success: false,
+      message,
+      errors,
+    });
   } catch (error) {
-    next(error);
+    // If error handling itself fails, send generic error
+    res.status(500).json({
+      statusCode: 500,
+      success: false,
+      message: "Internal server error",
+      errors: null,
+    });
   }
 };
 

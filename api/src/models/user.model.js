@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "email is required"],
       trim: true,
-      lowerCase: true,
+      lowercase: true, // fixed typo: was 'lowerCase'
+      unique: true, // ensure unique emails
       validate: {
         validator: function (value) {
           return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value);
@@ -24,11 +25,12 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "password is required"],
-      minLength: 6,
+      minlength: 6, // fixed typo: was 'minLength'
     },
   },
   { timestamps: true }
 );
 
-const User = mongoose.model("Users", userSchema);
+// Prevent model overwrite error in dev/hot-reload
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 export default User;

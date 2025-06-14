@@ -3,8 +3,12 @@ const sendResponse = (
   statusCode = 200,
   message = "successful",
   data = null,
-  success = true
+  success = null
 ) => {
+  // If success is not explicitly set, infer from statusCode
+  if (success === null) {
+    success = statusCode >= 200 && statusCode < 400;
+  }
   res.status(statusCode).json({
     statusCode,
     success,

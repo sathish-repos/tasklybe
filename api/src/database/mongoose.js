@@ -1,17 +1,20 @@
 import mongoose from "mongoose";
-
 import { NODE_ENV, MONGO_URI } from "../config/environment.js";
 
 if (!MONGO_URI) {
-  throw new Error(`Mongo DB URI is missing in ${NODE_ENV} environment file`);
+  throw new Error(`MongoDB URI is missing in ${NODE_ENV || "unknown"} environment file`);
 }
 
 const connectToMongoDB = async () => {
   try {
-    await mongoose.connect(MONGO_URI);
-    console.log(`connected to mongoDB in ${NODE_ENV} environment`);
+    // Use recommended options for mongoose.connect
+    await mongoose.connect(MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log(`Connected to MongoDB in ${NODE_ENV || "unknown"} environment`);
   } catch (error) {
-    console.log(`Failed to connect to MongoDB: ${error.message}`);
+    console.error(`Failed to connect to MongoDB: ${error.message}`);
     process.exit(1);
   }
 };

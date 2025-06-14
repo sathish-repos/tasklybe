@@ -15,9 +15,13 @@ app.use(cookieParser());
 
 app.use("/api/v1/auth", authRouter);
 
-app.get("/api/v1/users", async (req, res) => {
-  const users = await User.find();
-  res.send({ users });
+app.get("/api/v1/users", async (req, res, next) => {
+  try {
+    const users = await User.find();
+    res.send({ users });
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.get("/", (req, res) => {
@@ -26,9 +30,19 @@ app.get("/", (req, res) => {
 
 app.use(errorMiddleware);
 
-app.listen(PORT, async () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-  connectToMongoDB();
-});
+// Ensure DB connects before server starts accepting requests
+const startServer = async () => {
+  try {
+    await connectToMongoDB();
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 export default app;
