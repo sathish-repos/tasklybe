@@ -15,15 +15,6 @@ app.use(cookieParser());
 
 app.use("/api/v1/auth", authRouter);
 
-app.get("/api/v1/users", async (req, res, next) => {
-  try {
-    const users = await User.find();
-    res.send({ users });
-  } catch (error) {
-    next(error);
-  }
-});
-
 app.get("/", (req, res) => {
   res.send(`<h1> Welcome to Tasklybe Backend ;)`);
 });
