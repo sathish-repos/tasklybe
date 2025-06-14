@@ -6,6 +6,7 @@ import authRouter from "./src/routes/auth.routes.js";
 import connectToMongoDB from "./src/database/mongoose.js";
 import cookieParser from "cookie-parser";
 import errorMiddleware from "./src/middlewares/error.middleware.js";
+import taskRouter from "./src/routes/task.routes.js";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/tasks", taskRouter);
 
 app.get("/", (req, res) => {
   res.send(`<h1> Welcome to Tasklybe Backend ;)`);
