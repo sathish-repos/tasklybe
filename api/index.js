@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 
 import { PORT } from "./src/config/environment.js";
@@ -7,6 +8,15 @@ import cookieParser from "cookie-parser";
 import errorMiddleware from "./src/middlewares/error.middleware.js";
 
 const app = express();
+
+const allowedDomains = ["http://localhost:4200"];
+
+const corsOptions = {
+  origin: allowedDomains,
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
