@@ -1,11 +1,10 @@
 import express from "express";
 
 import { PORT } from "./src/config/environment.js";
+import authRouter from "./src/routes/auth.routes.js";
 import connectToMongoDB from "./src/database/mongoose.js";
 import cookieParser from "cookie-parser";
-import authRouter from "./src/routes/auth.routes.js";
 import errorMiddleware from "./src/middlewares/error.middleware.js";
-import User from "./src/models/user.model.js";
 
 const app = express();
 

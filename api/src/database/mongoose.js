@@ -1,8 +1,10 @@
-import mongoose from "mongoose";
 import { NODE_ENV, MONGO_URI } from "../config/environment.js";
+import mongoose from "mongoose";
 
 if (!MONGO_URI) {
-  throw new Error(`MongoDB URI is missing in ${NODE_ENV || "unknown"} environment file`);
+  throw new Error(
+    `MongoDB URI is missing in ${NODE_ENV || "unknown"} environment file`
+  );
 }
 
 const connectToMongoDB = async () => {

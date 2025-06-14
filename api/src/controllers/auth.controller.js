@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
+import { JWT_EXPIRATION, JWT_SECRET } from "../config/environment.js";
 import sendResponse from "../middlewares/response.middleware.js";
 import User from "./../models/user.model.js";
-import { JWT_EXPIRATION, JWT_SECRET } from "../config/environment.js";
 
 export const signUp = async (req, res, next) => {
   const session = await mongoose.startSession();
